@@ -18,7 +18,7 @@ Dans ce laboratoire, vous devrez faire en sorte que votre Raspberry Pi Zero soit
 
 ## 3. Préparation matérielle
 
-Dans ce laboratoire, nous utiliserons exceptionnellement le _second_ port USB, car celui habituellement utilisé ne peut servir qu'à alimenter le Raspberry Pi. Vous devrez donc brancher votre Raspberry Pi sur un ordinateur en utilisant le port étiquetté `USB` et **non** `PWR`. Ainsi, l'ordinateur auquel vous connecterez votre Raspberry Pi fournira le courant nécessaire à son opération, comme il le ferait pour un clavier "normal". Vous aurez pour cela besoin d'un câble USB à USB-micro, que vous pouvez obtenir au service technique du 0103 (les câbles ne peuvent cependant pas sortir du laboratoire; si vous voulez expérimenter à la maison, utiliser votre propre câble).
+Dans ce laboratoire, nous utiliserons exceptionnellement le _second_ port USB, car celui habituellement utilisé ne peut servir qu'à alimenter le Raspberry Pi. Vous devrez donc brancher votre Raspberry Pi sur un ordinateur en utilisant le port étiquetté `USB` et **non** `PWR`. Ainsi, l'ordinateur auquel vous connecterez votre Raspberry Pi fournira le courant nécessaire à son opération, comme il le ferait pour un clavier "normal". Vous aurez pour cela besoin d'un câble USB à USB-micro, que vous pouvez obtenir au service technique du 0103 (les câbles ne peuvent cependant pas sortir du laboratoire; si vous voulez expérimenter à la maison, utilisez votre propre câble).
 
 > **Attention** : ne **jamais** brancher les 2 prises (`USB` et `PWR`) simultanément à deux appareils distincts (par exemple un ordinateur dans `USB` et l'adapteur d'alimentation du Raspberry Pi dans `PWR`). Les 5V et GND des deux ports sont communs sur le PCB du Raspberry Pi et vous risqueriez un court-circuit pouvant endommager votre Raspberry Pi et/ou votre ordinateur!
 
@@ -27,17 +27,19 @@ Dans ce laboratoire, nous utiliserons exceptionnellement le _second_ port USB, c
 
 ## 4. Préparation logicielle
 
-Le Raspberry Pi Zero à ceci de particulier que son port USB peut à la fois servir comme *host* (à savoir qu'on y connecte des périphériques, comme vous l'avez fait avec un clavier au début de la session pour le configurer) ou comme *device* (à savoir qu'il attend les instructions d'un hôte, comme le ferait n'importe quel périphérique USB). Il faut cependant le configurer pour lui indiquer la configuration à adopter (le défaut est *host*). Pour ce faire, suivez les étapes suivantes :
+Le Raspberry Pi Zero a ceci de particulier que son port USB peut à la fois servir comme *host* (à savoir qu'on y connecte des périphériques, comme vous l'avez fait avec un clavier au début de la session pour le configurer) ou comme *device* (à savoir qu'il attend les instructions d'un hôte, comme le ferait n'importe quel périphérique USB). Il faut cependant le configurer pour lui indiquer la configuration à adopter (le défaut est *host*). Pour ce faire, suivez les étapes suivantes :
 
 1. Modifiez le fichier `/boot/config.txt` (vous pouvez par exemple utiliser la commande `sudo nano /boot/config.txt`). Juste **après** la ligne `[all]`, ajoutez : `dtoverlay=dwc2` sur une ligne distincte.
 2. Modifiez le fichier `/etc/modules`. Après les lignes commençant par `#`, ajoutez `dwc2` sur une ligne distincte, puis `libcomposite` sur une autre ligne (autrement dit, n'écrivez pas `dwc2 libcomposite` sur la même ligne).
 3. Redémarrez votre Raspberry Pi et assurez-vous qu'il est connecté correctement à un autre ordinateur (voir section 3).
 4. Exécutez le fichier `activeUSB` présent à la racine du dépôt. Cette exécution requiert les droits d'administrateur (donc `sudo`).
-5. Validez que votre Raspberry Pi est maintenant détecté comme un périphérique USB. Sur Windows, vous pouvez consulter le Gestionnaire de périphériques. MacOS possède un outil similaire. Sur Linux, vous pouvez utiliser la commande `lsusb`. L'identifiant à chercher est "Linux Foundation Multifunction Composite Gadget". Si ce n'est pas le cas, vérifiez que vous avez bien effectué les étapes suivantes.
+5. Validez que votre Raspberry Pi est maintenant détecté comme un périphérique USB. Sur Windows, vous pouvez consulter le Gestionnaire de périphériques. MacOS possède un outil similaire. Sur Linux, vous pouvez utiliser la commande `lsusb`. L'identifiant à chercher est "Linux Foundation Multifunction Composite Gadget". Si ce n'est pas le cas, vérifiez que vous avez bien effectué les étapes précédentes.
 
 > Note : il se peut que Windows se plaigne de l'absence de pilote pour ce périphérique ou indique que "l'installation n'a pas pu être complétée". Ce n'est **pas** un problème pour nous.
 
 L'exécution de `activeUSB` doit être _répétée_ à chaque redémarrage du Raspberry Pi. Si vous voulez éviter le risque de l'oublier, vous pouvez l'ajouter à votre fichier `/etc/rc.local`, comme vous avez fait pour DuckDNS lors du laboratoire 1.
+
+> Remarque : après ces modifications, vous ne pourrez _PAS_ utiliser le port USB de votre Raspberry Pi pour y brancher, par exemple, un clavier. Si vous voulez revenir au comportement par défaut, retirez simplement les lignes susmentionnées.
 
 ## 5. Énoncé
 
@@ -61,13 +63,13 @@ Les données que vous recevez sont en format ASCII (des chaînes de caractères 
 - Les caractères de ponctuation suivants : la virgule (,) et le point (.)
 - Le caractère d'espacement ( ) et le retour à la ligne (`\n`)
 
-Tous les autres caractères *peuvent être ignorés* (mais ne seront pas produits si vous utilisez les données du cours).
+Tous les autres caractères *peuvent être ignorés* (et ne seront de toute façon pas produits si vous utilisez les données du cours).
 
 Étant donné que les touches du clavier ne sont pas forcément associées à un seul caractère ASCII, le protocole USB encode ces données différemment, sous forme d'un _paquet_ de _8 octets_.
 
 | Position | Octet 1 | Octet 2 | Octet 3 | Octet 4 | Octet 5 | Octet 6 | Octet 7 | Octet 8|
 |---|---|---|---|---|---|---|---|---|
-| **Fonction** | Touches *modificatrices* | Inutilisé | 1ere touche pressée | 2e touche pressée | 3e touche pressée | 4e touche pressée | 5e touche pressée | 6e touche pressée |
+| **Fonction** | Touches *modificatrices* | Toujours 0 | 1ere touche pressée | 2e touche pressée | 3e touche pressée | 4e touche pressée | 5e touche pressée | 6e touche pressée |
 
 Le premier octet contient l'information sur les touches modifiant les autres (Shift, Ctrl, Alt, etc.). Dans votre cas, le seul élément qui vous importe est que `0` représente "aucun modificateur" et que `2` représente "Left Shift enfoncé". Ces deux valeurs vous seront suffisantes pour afficher tous les caractères demandés. Le second octet n'est jamais utilisé dans ce laboratoire et *sa valeur doit toujours être fixée à `0`*.
 
@@ -77,13 +79,13 @@ Les autres octets encodent jusqu'à *6 touches* simultanément. Cet encodage se 
 
 > **Note** : l'ordre des lettres dans le paquet a de l'importance! L'ordinateur considère le contenu du paquet comme une liste ordonnée. Si vous voulez envoyer la chaîne `abcde` par exemple, vous devez envoyer `a` à l'octet 2, `b` à l'octet 3, et ainsi de suite. Inverser l'ordre inversera aussi la façon dont l'ordinateur recevra les caractères!
 
-Pour écrire sur le bus USB, il suffit d'utiliser la fonction `fwrite` en utilisant le pointeur de fichier `periphClavier`, que vous recevez en argument. Ce fichier est ouvert pour vous par la fonction `initClavier`, déjà codée pour vous. Vous devez toutefois appeler cette fonction dans votre `main()` et passer correctement son argument à `ecrireCaracteres`.
+Pour écrire sur le bus USB, il suffit d'utiliser la fonction `fwrite` en utilisant le pointeur de fichier `periphClavier`, que vous recevez en argument. Ce fichier est ouvert pour vous par la fonction `initClavier`, déjà codée pour vous. Vous devez toutefois appeler cette fonction dans votre `main()` et passer correctement sa valeur de retour comme argument à `ecrireCaracteres`.
 
 > À savoir : contrairement à `write()`, `fwrite()` vous _garantit_ l'écriture des 8 octets d'un coup. Vous n'avez donc pas à faire de boucle autour de cette fonction (vous devriez tout de même vérifier sa valeur de retour, pour être certain que l'appel n'échoue pas).
 
 #### Délai d'envoi
 
-La vitesse du bus USB est en pratique suffisament élevée pour qu'il ne soit jamais complètement occupé par un simple clavier. Toutefois, dans le but de tester différents scénarios de files d'attente, **vous devez ajouter un délai artificiel lors de l'envoi de chaque paquet** (pas chaque caractère, chaque paquet). La fonction `usleep` est déjà appelée pour vous dans `ecrireCaracteres`, mais vous devez lui fournir le délai artificiel qu'elle doit produire (il vous sera fourni sur la ligne de commande, comme nous le verrons dans la section 5.5). N'oubliez pas que cette fonction doit être appelée à chaque fois que vous envoyez un _paquet_ : vous avez donc tout avantage à "remplir" autant que possible ces paquets.
+La vitesse du bus USB est en pratique suffisament élevée pour qu'il ne soit jamais complètement occupé par un simple clavier. Toutefois, dans le but de tester différents scénarios de files d'attente, **vous devez ajouter un délai artificiel lors de l'envoi de chaque paquet** (pas chaque caractère, chaque paquet). Vous devrez pour cela appeler la fonction `usleep` dans `ecrireCaracteres`, en lui fournissant le délai artificiel qu'elle doit produire (il vous sera indiqué sur la ligne de commande, comme nous le verrons dans la section 5.5). N'oubliez pas que cette fonction doit être appelée à chaque fois que vous envoyez un _paquet_ : vous avez donc tout avantage à "remplir" autant que possible ces paquets.
 
 
 ### 5.2 Thread préparant l'écriture des données sur le bus USB
@@ -116,11 +118,10 @@ La plupart des statistiques ont des noms parlants, mais n'hésitez pas à vous r
 
 Votre programme doit accepter trois arguments sur la ligne de commande :
 
-- `argv[1]` contient le chemin vers le fichier virtuel du pipe nommé à utiliser
-- `argv[2]` contient le nombre de micro-secondes (valeur entière) à attendre lors de l'envoi de chaque paquet (voir section 5.1)
-- `argv[3]` est la taille du tampon circulaire à utiliser (valeur entière)
+- `argv[1]` contient le chemin vers le fichier virtuel du pipe nommé à utiliser.
+- `argv[2]` contient le nombre de micro-secondes (valeur entière) à attendre lors de l'envoi de chaque paquet (voir section 5.1). Vous pouvez utiliser la fonction `atoi()` pour la convertir en un nombre.
+- `argv[3]` est la taille du tampon circulaire à utiliser (valeur entière). Vous pouvez utiliser la fonction `atoi()` pour la convertir en un nombre.
 
-Le traitement de ces arguments est déjà fait pour vous dans `main.c`.
 
 ### 5.6 Créateur de requêtes
 
@@ -135,13 +136,21 @@ Dans le détail:
 1. `chemin_named_pipe` contient le chemin où l'exécutable doit créer le fichier virtuel du pipe nommé. C'est ce même argument qui devra être passé en première position à votre programme.
 2. `freq_min` et `freq_max` indiquent respectivement fréquence _minimale_ et _maximale_ des messages en *messages par minutes*. Par exemple, si `freq_min=40` et `freq_max=80`, le `createurRequetes` générera entre 40 et 80 messages à chaque minute. Le nombre peut varier car une partie du programme est probabiliste (à chaque message envoyé, il prend une pause qui lui permet de rester dans la plage de fréquence demandée, mais cette pause n'est pas toujours égale).
 3. `nbr_carac_min` et `nbr_carac_max` indiquent le nombre _minimum_ et _maximum_ de caractères par message (nombre de caractère avant le `EOT`). Comme pour la fréquence, ce nombre est probabiliste.
-4. `mode` permet de choisir quel type de texte recevoir. `0` envoie des messages au hasard parmi une sélection de courriels importants dans l'histoire de votre système Linux. `1` permet de tester en envoyant simplement tous les caractères possibles un après l'autre (c'est un bon choix pour commencer) : `abcdefghijklmnopqrstuvwxyz\nABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789 ,.\n`. `2` est un test difficile, qui utilise les "pires" cas possibles (majuscules suivies immédiatement de minuscules, par exemple) : `AbCdEfGhIjKlMnOpQrStUvWxYzA1B2C3D4E5F6G7H8I9J0K,L.M NO\naBCDeFGHiJKLmNOPqrsTuvwXyZ9,8,7.6.5.4,3,2 1\n` : c'est un bon test de robustesse pour votre code. Finalement `3` est spécial, en ce sens qu'il attend une entrée dans la console, et va retransmettre cette entrée comme message lorsque vous presserez Enter. N'oubliez pas toutefois de vous limiter aux caractères autorisés!
+4. `mode` permet de choisir quel type de texte recevoir. Vous pouvez sélectionner un mode en utilisant un chiffre entre 0 et 3.
 5. `verbose` peut prendre `0` ou `1` comme valeurs. Si `1`, des messages seront affichés sur la console pour vous indiquer ce qui vient d'être envoyé. Cela peut vous être utile pour le débogage.
 
+| Mode | Valeur |
+|---|---|
+| 0 | Texte réel choisi au hasard parmi une sélection de courriels importants dans l'histoire de votre système Linux.|
+| 1 | Test simple : `abcdefghijklmnopqrstuvwxyz\nABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789 ,.\n`|
+| 2 | Test difficile : `AbCdEfGhIjKlMnOpQrStUvWxYzA1B2C3D4E5F6G7H8I9J0K,L.M NO\naBCDeFGHiJKLmNOPqrsTuvwXyZ9,8,7.6.5.4,3,2 1\n`|
+| 3 | Recopier l'entrée standard (vous pouvez écrire dans le terminal et presser Enter pour envoyer le texte)|
+
+Nous vous suggérons de commencer par tester votre programme avec le mode `1`, qui est le plus "facile" et aussi celui où une erreur est le plus aisément détectable. Par la suite, vous pouvez essayer le mode `0` et, quand vous considérez votre code suffisament robuste, le mode `2`. Le mode `3` est fourni pour votre amusement et vous ne serez normalement pas évalué avec celui-ci : n'oubliez pas toutefois de vous limiter aux caractères autorisés!
 
 ### 5.7 Exécution et débogage
 
-Comme pour les laboratoires 1 à 3, vous pouvez utiliser le débogage de VScode pour tester votre code de manière plus pratique. Sachez toutefois que le débogueur est limité dans son support des threads : il vous est suggéré de commencer par implémenter une version _série_ (sans thread, où les opérations de lecture et d'écriture se font en alternance) afin de valider et déboguer la logique de votre code, _puis_ de passer en mode multi-threads.
+Comme pour les laboratoires 1 à 3, vous pouvez utiliser le débogage de VScode pour tester votre code de manière plus pratique. Sachez toutefois que le débogueur est limité dans son support des threads : il vous est suggéré de commencer par implémenter une version _série_ (sans thread, où les opérations de lecture et d'écriture se font en alternance) afin de valider et déboguer la logique de votre code, _puis_ de passer en mode multi-threads. Le script de lancement du débogage lance automatiquement `createurRequetes` avec votre programme, avec des paramètres définis dans `syncAndStartGDB.sh`. Si vous voulez, vous pouvez également lancer les programmes séparément, en vous connectant par SSH à votre Raspberry Pi et en lançant `createurRequetes` vous-mêmes.
 
 
 ## 6. Modalités d'évaluation
