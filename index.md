@@ -37,7 +37,7 @@ Le Raspberry Pi Zero a ceci de particulier que son port USB peut à la fois serv
 
 > Note : il se peut que Windows se plaigne de l'absence de pilote pour ce périphérique ou indique que "l'installation n'a pas pu être complétée". Ce n'est **pas** un problème pour nous.
 
-L'exécution de `activeUSB` doit être _répétée_ à chaque redémarrage du Raspberry Pi. Si vous voulez éviter le risque de l'oublier, vous pouvez l'ajouter à votre fichier `/etc/rc.local`, comme vous avez fait pour DuckDNS lors du laboratoire 1.
+L'exécution de `activeUSB` doit être _répétée_ à chaque redémarrage du Raspberry Pi. Si vous voulez éviter le risque de l'oublier, vous pouvez l'ajouter à votre fichier `/etc/rc.local`, comme vous avez fait pour DuckDNS lors du laboratoire 1. N'oubliez pas également que `activeUSB` doit être exécutable pour que cette procédure fonctionne. Si ce n'est pas le cas, vous pouvez utiliser la commande `chmod +x activeUSB` pour le rendre exécutable.
 
 > Remarque : après ces modifications, vous ne pourrez _PAS_ utiliser le port USB de votre Raspberry Pi pour y brancher, par exemple, un clavier. Si vous voulez revenir au comportement par défaut, retirez simplement les lignes susmentionnées.
 
