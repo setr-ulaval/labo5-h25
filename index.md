@@ -32,18 +32,18 @@ Le Raspberry Pi Zero a ceci de particulier que son port USB peut à la fois serv
 1. Modifiez le fichier `/boot/config.txt` (vous pouvez par exemple utiliser la commande `sudo nano /boot/config.txt`). Juste **après** la ligne `[all]`, ajoutez : `dtoverlay=dwc2` sur une ligne distincte.
 2. Modifiez le fichier `/etc/modules`. Après les lignes commençant par `#`, ajoutez `dwc2` sur une ligne distincte, puis `libcomposite` sur une autre ligne (autrement dit, n'écrivez pas `dwc2 libcomposite` sur la même ligne).
 3. Redémarrez votre Raspberry Pi et assurez-vous qu'il est connecté correctement à un autre ordinateur (voir section 3).
-4. Exécutez le fichier `activeUSB` présent à la racine du dépôt. Cette exécution requiert les droits d'administrateur (donc `sudo`).
+4. Exécutez le fichier `activeUSB` présent dans votre répertoire `/home/pi` de l'image par défaut du cours. Si, pour une raison ou une autre, ce fichier n'est pas présent sur votre Raspberry Pi, vous pouvez le récupérer dans le dépôt Git. Cette exécution requiert les droits d'administrateur (donc `sudo ~/activeUSB`).
 5. Validez que votre Raspberry Pi est maintenant détecté comme un périphérique USB. Sur Windows, vous pouvez consulter le Gestionnaire de périphériques. MacOS possède un outil similaire. Sur Linux, vous pouvez utiliser la commande `lsusb`. L'identifiant à chercher est "Linux Foundation Multifunction Composite Gadget". Si ce n'est pas le cas, vérifiez que vous avez bien effectué les étapes précédentes.
 
 > Note : il se peut que Windows se plaigne de l'absence de pilote pour ce périphérique ou indique que "l'installation n'a pas pu être complétée". Ce n'est **pas** un problème pour nous.
 
-L'exécution de `activeUSB` doit être _répétée_ à chaque redémarrage du Raspberry Pi. Si vous voulez éviter le risque de l'oublier, vous pouvez l'ajouter à votre fichier `/etc/rc.local`, comme vous avez fait pour DuckDNS lors du laboratoire 1. N'oubliez pas également que `activeUSB` doit être exécutable pour que cette procédure fonctionne. Si ce n'est pas le cas, vous pouvez utiliser la commande `chmod +x activeUSB` pour le rendre exécutable.
+L'exécution de `activeUSB` doit être _répétée_ à chaque redémarrage du Raspberry Pi. Si vous voulez éviter le risque de l'oublier, vous pouvez l'ajouter à votre fichier `/etc/rc.local`, comme vous avez fait pour DuckDNS lors du laboratoire 1. N'oubliez pas également que `activeUSB` doit être exécutable pour que cette procédure fonctionne. C'est le cas dans l'image par défaut du cours, mais au besoin vous pouvez utiliser la commande `chmod +x activeUSB` pour le rendre exécutable.
 
 > Remarque : après ces modifications, vous ne pourrez _PAS_ utiliser le port USB de votre Raspberry Pi pour y brancher, par exemple, un clavier. Si vous voulez revenir au comportement par défaut, retirez simplement les lignes susmentionnées.
 
 ## 5. Énoncé
 
-Une fois ces étapes de configuration complétées, vous pouvez commencer le laboratoire à proprement parler. Le code de base et le squelette de projet (incluant la configuration CMake) sont disponibles sur ce dépôt Git : [https://github.com/setr-ulaval/labo5-h23](https://github.com/setr-ulaval/labo5-h23). L'architecture générale du laboratoire est présentée à la figure suivante :
+Une fois ces étapes de configuration complétées, vous pouvez commencer le laboratoire à proprement parler. Le code de base et le squelette de projet (incluant la configuration CMake) sont disponibles sur ce dépôt Git : [https://github.com/setr-ulaval/labo5-h24](https://github.com/setr-ulaval/labo5-h24). L'architecture générale du laboratoire est présentée à la figure suivante :
 
 <img src="img/architecture.png" style="width:1162px"/>
 
@@ -134,10 +134,10 @@ Vous aurez remarqué que nous parlons beaucoup de "requêtes", mais sans avoir d
 Dans le détail:
 
 1. `chemin_named_pipe` contient le chemin où l'exécutable doit créer le fichier virtuel du pipe nommé. C'est ce même argument qui devra être passé en première position à votre programme.
-2. `freq_min` et `freq_max` indiquent respectivement fréquence _minimale_ et _maximale_ des messages en *messages par minutes*. Par exemple, si `freq_min=40` et `freq_max=80`, le `createurRequetes` générera entre 40 et 80 messages à chaque minute. Le nombre peut varier car une partie du programme est probabiliste (à chaque message envoyé, il prend une pause qui lui permet de rester dans la plage de fréquence demandée, mais cette pause n'est pas toujours égale).
+2. `freq_min` et `freq_max` indiquent respectivement fréquence _minimale_ et _maximale_ des messages en *messages par minutes*. Par exemple, si `freq_min=40` et `freq_max=80`, le `createurRequetes` générera entre 40 et 80 messages à chaque minute. Le nombre peut varier car une partie du programme est probabiliste (à chaque message envoyé, il prend une pause qui lui permet de rester *en moyenne* dans la plage de fréquence demandée, mais cette pause n'est pas toujours égale).
 3. `nbr_carac_min` et `nbr_carac_max` indiquent le nombre _minimum_ et _maximum_ de caractères par message (nombre de caractère avant le `EOT`). Comme pour la fréquence, ce nombre est probabiliste.
-4. `mode` permet de choisir quel type de texte recevoir. Vous pouvez sélectionner un mode en utilisant un chiffre entre 0 et 3.
-5. `verbose` peut prendre `0` ou `1` comme valeurs. Si `1`, des messages seront affichés sur la console pour vous indiquer ce qui vient d'être envoyé. Cela peut vous être utile pour le débogage.
+4. `mode` permet de choisir quel type de texte recevoir. Vous pouvez sélectionner un mode en utilisant un chiffre entre 0 et 3 (voir le tableau plus bas).
+5. `verbose` peut prendre la valeur `0` ou `1`. Si `1`, des messages seront affichés sur la console pour vous indiquer ce qui vient d'être envoyé. Cela peut vous être utile pour le débogage.
 
 | Mode | Valeur |
 |---|---|
@@ -155,21 +155,35 @@ Comme pour les laboratoires 1 à 3, vous pouvez utiliser le débogage de VScode 
 
 ## 6. Modalités d'évaluation
 
-Ce travail doit être réalisé en **équipe de deux**, la charge de travail étant à répartir équitablement entre les deux membres de l’équipe. Aucun rapport n’est à remettre, mais vous devez soumettre votre code source dans monPortail avant le **13 avril 2023, 21h**. Ensuite, lors de la séance de laboratoire du **14 avril 2023**, les deux équipiers doivent être en mesure individuellement d’expliquer leur approche et de démontrer le bon fonctionnement de l’ensemble de la solution de l’équipe du laboratoire. Si vous ne pouvez pas vous y présenter, contactez l’équipe pédagogique du cours dans les plus brefs délais afin de convenir d’une date d’évaluation alternative. Ce travail compte pour **10%** de la note totale du cours. Comme pour les travaux précédents, votre code doit compiler **sans avertissements** de la part de GCC.
+Ce travail doit être réalisé en **équipe de deux**, la charge de travail étant à répartir équitablement entre les deux membres de l’équipe. Aucun rapport n’est à remettre, mais vous devez soumettre votre code source dans monPortail avant le **11 avril 2024, 17h**. Ensuite, lors de la séance de laboratoire du **12 avril 2024**, les deux équipiers doivent être en mesure individuellement d’expliquer leur approche et de démontrer le bon fonctionnement de l’ensemble de la solution de l’équipe du laboratoire. Si vous ne pouvez pas vous y présenter, contactez l’équipe pédagogique du cours dans les plus brefs délais afin de convenir d’une date d’évaluation alternative. Ce travail compte pour **12%** de la note totale du cours. Comme pour les travaux précédents, votre code doit compiler **sans avertissements** de la part de GCC.
 
-Le barème d’évaluation détaillé sera le suivant (laboratoire noté sur 20 points) :
+### 6.1. Barème d'évaluation
 
-- (4 pts) Votre programme est en mesure d'envoyer des caractères sur l'ordinateur sur lequel le Raspberry Pi est branché
-- (4 pts) Les caractères affichés sont corrects (pas de coupure, mauvais caractère, ou caractère manquant -- sauf en cas de dépassement de la capacité du tampon circulaire, bien sûr)
-- (4 pts) Les statistiques sont affichées correctement dans le terminal, à toutes les secondes, et correspondent aux valeurs attendues
-- (2 pts) L'envoi des caractères sur le bus USB est efficace (utilisation maximisée des paquets)
-- (3 pts) La synchronisation entre les différents threads est correctement implémentée et correspond à ce qui est demandé (barrière à l'entrée des threads, mutex pour protéger le tampon circulaire, etc.)
-- (1 pts) Tous les programmes compilent sans avertissement
-- (2 pts) Les étudiants sont en mesure d’expliquer l’approche utilisée et de répondre aux questions concernant leur code.
+Le barême d'évaluation détaillé sera le suivant (laboratoire noté sur 20 points) :
+
+#### 6.1.1. Qualité du code remis (6 points)
+
+* (3 pts) Le code C est valide, complet et ne contient pas d'erreurs empêchant le bon déroulement des programmes.
+* (1 pts) La compilation se fait sans avertissement (*warning*) de la part du compilateur.
+* (2 pts) La synchronisation entre les différents threads est correctement implémentée et correspond à ce qui est demandé (barrière à l'entrée des threads, mutex pour protéger le tampon circulaire, etc.)
+
+#### 6.1.2. Validité de la solution (10 points)
+
+> **Attention** : un programme ne compilant pas obtient automatiquement une note de **zéro** pour cette section.
+
+* (3 pts) Votre programme est en mesure d'envoyer des caractères sur l'ordinateur sur lequel le Raspberry Pi est branché
+* (3 pts) Les caractères affichés sont corrects (pas de coupure, mauvais caractère, ou caractère manquant -- sauf en cas de dépassement de la capacité du tampon circulaire, bien sûr)
+* (2 pts) Les statistiques sont affichées correctement dans le terminal, à toutes les secondes, et correspondent aux valeurs attendues
+* (2 pts) L'envoi des caractères sur le bus USB est efficace (utilisation maximisée des paquets)
+
+#### 6.1.3. Justesse des explications et réponses aux questions (4 points)
+
+* (4 pts) Les étudiants sont en mesure d'expliquer l'approche utilisée et de répondre aux questions concernant leur code et la théorie liée au laboratoire.
+
 
 ## 7. Ressources et lectures connexes
 
-* [Le dépôt Git contenant les fichiers de base](https://github.com/setr-ulaval/labo5-h23)
+* [Le dépôt Git contenant les fichiers de base](https://github.com/setr-ulaval/labo5-h24)
 * [La table des caractères USB-HID](https://www.win.tue.nl/~aeb/linux/kbd/scancodes-14.html)
 * [La table ASCII](https://www.asciitable.com/)
 * [Un article expliquant comment transformer le Raspberry Pi Zero en clavier, source d'inspiration pour ce laboratoire](https://randomnerdtutorials.com/raspberry-pi-zero-usb-keyboard-hid/)
