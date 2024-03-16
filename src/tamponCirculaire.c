@@ -1,3 +1,12 @@
+/******************************************************************************
+ * Laboratoire 5
+ * GIF-3004 Systèmes embarqués temps réel
+ * Hiver 2024
+ * Marc-André Gardner
+ * 
+ * Fichier implémentant les fonctions de gestion du tampon circulaire
+ ******************************************************************************/
+
 #include "tamponCirculaire.h"
 
 // Plusieurs variables globales statiques (pour qu'elles ne soient accessible que dans les

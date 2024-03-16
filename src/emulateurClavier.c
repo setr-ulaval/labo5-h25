@@ -1,3 +1,12 @@
+/******************************************************************************
+ * Laboratoire 5
+ * GIF-3004 Systèmes embarqués temps réel
+ * Hiver 2024
+ * Marc-André Gardner
+ * 
+ * Fichier implémentant les fonctions de l'emulateur de clavier
+ ******************************************************************************/
+
 #include "emulateurClavier.h"
 
 FILE* initClavier(){

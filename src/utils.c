@@ -1,3 +1,12 @@
+/******************************************************************************
+ * Laboratoire 5
+ * GIF-3004 Systèmes embarqués temps réel
+ * Hiver 2024
+ * Marc-André Gardner
+ * 
+ * Fichier implémentant des fonctions utilitaires (déjà codées pour vous)
+ ******************************************************************************/
+
 #include "utils.h"
 
 // Fonction permettant de récupérer le temps courant sous forme double

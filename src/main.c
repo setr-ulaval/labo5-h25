@@ -1,3 +1,12 @@
+/******************************************************************************
+ * Laboratoire 5
+ * GIF-3004 Systèmes embarqués temps réel
+ * Hiver 2024
+ * Marc-André Gardner
+ * 
+ * Fichier principal
+ ******************************************************************************/
+
 #include <pthread.h>
 #include <fcntl.h>
 #include <string.h>
@@ -102,11 +111,11 @@ int main(int argc, char* argv[]){
     struct statistiques stats;
     double tempsDebut = get_time();
     while(1){
-        // Affichage des statistiques toutes les secondes
+        // Affichage des statistiques toutes les 2 secondes
         calculeStats(&stats);
         afficherStats((unsigned int)(round(get_time() - tempsDebut)), &stats);
         resetStats();
-        usleep(1e6);
+        usleep(2e6);
     }
     return 0;
 }
