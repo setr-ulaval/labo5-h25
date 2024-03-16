@@ -148,14 +148,25 @@ Dans le détail:
 
 Nous vous suggérons de commencer par tester votre programme avec le mode `1`, qui est le plus "facile" et aussi celui où une erreur est le plus aisément détectable. Par la suite, vous pouvez essayer le mode `0` et, quand vous considérez votre code suffisament robuste, le mode `2`. Le mode `3` est fourni pour votre amusement et vous ne serez normalement pas évalué avec celui-ci : n'oubliez pas toutefois de vous limiter aux caractères autorisés!
 
+> Note : le créateur de requête quitte automatiquement lorsque l'autre processus ferme le *named pipe*. N'oubliez pas de le relancer si votre programme plante et que vous lancez vos programmes manuellement en console (les scripts de débogage le font déjà pour vous).
+
 ### 5.7 Exécution et débogage
 
 Comme pour les laboratoires 1 à 3, vous pouvez utiliser le débogage de VScode pour tester votre code de manière plus pratique. Sachez toutefois que le débogueur est limité dans son support des threads : il vous est suggéré de commencer par implémenter une version _série_ (sans thread, où les opérations de lecture et d'écriture se font en alternance) afin de valider et déboguer la logique de votre code, _puis_ de passer en mode multi-threads. Le script de lancement du débogage lance automatiquement `createurRequetes` avec votre programme, avec des paramètres définis dans `syncAndStartGDB.sh`. Si vous voulez, vous pouvez également lancer les programmes séparément, en vous connectant par SSH à votre Raspberry Pi et en lançant `createurRequetes` vous-mêmes.
+
+> **Attention** : le programme principal (`emulateurClavier`) requiert les droits administrateurs pour écrire sur le bus USB. Nos scripts le lancent déjà ainsi, mais si vous le lancez vous-mêmes sur la ligne de commande, utilisez `sudo`!
 
 
 ## 6. Modalités d'évaluation
 
 Ce travail doit être réalisé en **équipe de deux**, la charge de travail étant à répartir équitablement entre les deux membres de l’équipe. Aucun rapport n’est à remettre, mais vous devez soumettre votre code source dans monPortail avant le **11 avril 2024, 17h**. Ensuite, lors de la séance de laboratoire du **12 avril 2024**, les deux équipiers doivent être en mesure individuellement d’expliquer leur approche et de démontrer le bon fonctionnement de l’ensemble de la solution de l’équipe du laboratoire. Si vous ne pouvez pas vous y présenter, contactez l’équipe pédagogique du cours dans les plus brefs délais afin de convenir d’une date d’évaluation alternative. Ce travail compte pour **12%** de la note totale du cours. Comme pour les travaux précédents, votre code doit compiler **sans avertissements** de la part de GCC.
+
+Notre évaluation se fera sur le Raspberry Pi de l'enseignant ou de l'assistant et comprendra notamment les éléments suivants:
+
+  1. La sortie de compilation d'un *CMake: Clean Rebuild*;
+  2. Le lancement de votre programme avec un flot de requête "simple" (par exemple `./createurRequetes fichierComm 50 70 10 20 1 0` et `./emulateurClavier fichierComm 1000 10`), où tous les caractères devraient être affichés sans problème;
+  3. Le lancement de votre programme avec un flot de requête "limite" (par exemple `./createurRequetes fichierComm 240 300 20 30 2 0` et `./emulateurClavier fichierComm 10000 10`), où tous les caractères devraient également être affichés, mais avec un `rho` nettement plus près de 1.0;
+  4. Le lancement de votre programme avec un flot de requête "excessif" (par exemple `./createurRequetes fichierComm 300 360 20 30 2 0` et `./emulateurClavier fichierComm 20000 10`), où le tampon circulaire devrait finir par se remplir puis par "manquer" des caractères, mais sans que votre programme n'en soit autrement affecté.
 
 ### 6.1. Barème d'évaluation
 
@@ -173,7 +184,7 @@ Le barême d'évaluation détaillé sera le suivant (laboratoire noté sur 20 po
 
 * (3 pts) Votre programme est en mesure d'envoyer des caractères sur l'ordinateur sur lequel le Raspberry Pi est branché
 * (3 pts) Les caractères affichés sont corrects (pas de coupure, mauvais caractère, ou caractère manquant -- sauf en cas de dépassement de la capacité du tampon circulaire, bien sûr)
-* (2 pts) Les statistiques sont affichées correctement dans le terminal, à toutes les secondes, et correspondent aux valeurs attendues
+* (2 pts) Les statistiques sont affichées correctement dans le terminal, à toutes les 2 secondes, et correspondent aux valeurs attendues
 * (2 pts) L'envoi des caractères sur le bus USB est efficace (utilisation maximisée des paquets)
 
 #### 6.1.3. Justesse des explications et réponses aux questions (4 points)
