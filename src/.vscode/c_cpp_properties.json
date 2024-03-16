@@ -22,7 +22,7 @@
             "compilerPath": "${env.HOME}/arm-cross-comp-env/arm-raspbian-linux-gnueabi/bin/arm-raspbian-linux-gnueabi-gcc",
             "cStandard": "gnu99",
             "cppStandard": "gnu++17",
-            "configurationProvider": "ms-vscode.cmake-tools"
+            "configurationProvider": "none"
         }
     ],
     "version": 4

@@ -25,11 +25,11 @@ struct infoThreadLecture{
 };
 
 // Structure contenant les statistiques que vous devez calculer
-// Ces statistiques doivent etre calculees sur une periode de 1 seconde
+// Ces statistiques doivent etre calculees sur une periode de 2 secondes
 // (donc, par exemple, le nombre de requetes traitees est le nombre de
-// caracteres traites _dans la derniere seconde_) ou, si vous preferez,
+// caracteres traites _dans les 2 dernieres secondes_) ou, si vous preferez,
 // depuis le dernier affichage de ces statistiques (qui se fait a toutes
-// les secondes).
+// les 2 secondes).
 // La plupart des champs ont des noms evocateurs, voyez les notes de cours sur
 // les files d'attente si la signification de lambda, mu et rho n'est pas claire.
 struct statistiques{

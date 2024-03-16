@@ -71,7 +71,8 @@ int insererDonnee(struct requete *req){
     //
     // Mettre a jour posEcriture et longueurCourante (toujours) et possiblement
     // posLecture (si vous vous etes "mordu la queue" et que vous etes revenu au
-    // debut de votre tampon circulaire)
+    // debut de votre tampon circulaire, il faut aussi repousser le pointeur de lecture
+    // pour que le prochain element lu soit le plus ancien!)
     //
     // Mettre a jour les variables necessaires aux statistiques (comme nombreRequetesRecues, par exemple)
     //
