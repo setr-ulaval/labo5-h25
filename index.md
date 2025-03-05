@@ -178,18 +178,18 @@ Le barême d'évaluation détaillé sera le suivant (laboratoire noté sur 20 po
 * (1 pts) La compilation se fait sans avertissement (*warning*) de la part du compilateur.
 * (2 pts) La synchronisation entre les différents threads est correctement implémentée et correspond à ce qui est demandé (barrière à l'entrée des threads, mutex pour protéger le tampon circulaire, etc.)
 
-#### 6.1.2. Validité de la solution (10 points)
+#### 6.1.2. Validité de la solution (9 points)
 
 > **Attention** : un programme ne compilant pas obtient automatiquement une note de **zéro** pour cette section.
 
-* (3 pts) Votre programme est en mesure d'envoyer des caractères sur l'ordinateur sur lequel le Raspberry Pi est branché
+* (2 pts) Votre programme est en mesure d'envoyer des caractères sur l'ordinateur sur lequel le Raspberry Pi est branché
 * (3 pts) Les caractères affichés sont corrects (pas de coupure, mauvais caractère, ou caractère manquant -- sauf en cas de dépassement de la capacité du tampon circulaire, bien sûr)
 * (2 pts) Les statistiques sont affichées correctement dans le terminal, à toutes les 2 secondes, et correspondent aux valeurs attendues
 * (2 pts) L'envoi des caractères sur le bus USB est efficace (utilisation maximisée des paquets)
 
-#### 6.1.3. Justesse des explications et réponses aux questions (4 points)
+#### 6.1.3. Justesse des explications et réponses aux questions (5 points)
 
-* (4 pts) Les étudiants sont en mesure d'expliquer l'approche utilisée et de répondre aux questions concernant leur code et la théorie liée au laboratoire.
+* (5 pts) Les étudiants sont en mesure d'expliquer l'approche utilisée et de répondre aux questions concernant leur code et la théorie liée au laboratoire.
 
 
 ## 7. Ressources et lectures connexes
