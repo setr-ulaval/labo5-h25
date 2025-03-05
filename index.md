@@ -43,7 +43,7 @@ L'exécution de `activeUSB` doit être _répétée_ à chaque redémarrage du Ra
 
 ## 5. Énoncé
 
-Une fois ces étapes de configuration complétées, vous pouvez commencer le laboratoire à proprement parler. Le code de base et le squelette de projet (incluant la configuration CMake) sont disponibles sur ce dépôt Git : [https://github.com/setr-ulaval/labo5-h24](https://github.com/setr-ulaval/labo5-h24). L'architecture générale du laboratoire est présentée à la figure suivante :
+Une fois ces étapes de configuration complétées, vous pouvez commencer le laboratoire à proprement parler. Le code de base et le squelette de projet (incluant la configuration CMake) sont disponibles sur ce dépôt Git : [https://github.com/setr-ulaval/labo5-h25](https://github.com/setr-ulaval/labo5-h25). L'architecture générale du laboratoire est présentée à la figure suivante :
 
 <img src="img/architecture.png" style="width:1162px"/>
 
@@ -159,7 +159,7 @@ Comme pour les laboratoires 1 à 3, vous pouvez utiliser le débogage de VScode 
 
 ## 6. Modalités d'évaluation
 
-Ce travail doit être réalisé en **équipe de deux**, la charge de travail étant à répartir équitablement entre les deux membres de l’équipe. Aucun rapport n’est à remettre, mais vous devez soumettre votre code source dans monPortail avant le **11 avril 2024, 17h**. Ensuite, lors de la séance de laboratoire du **12 avril 2024**, les deux équipiers doivent être en mesure individuellement d’expliquer leur approche et de démontrer le bon fonctionnement de l’ensemble de la solution de l’équipe du laboratoire. Si vous ne pouvez pas vous y présenter, contactez l’équipe pédagogique du cours dans les plus brefs délais afin de convenir d’une date d’évaluation alternative. Ce travail compte pour **12%** de la note totale du cours. Comme pour les travaux précédents, votre code doit compiler **sans avertissements** de la part de GCC.
+Ce travail doit être réalisé en **équipe de deux**, la charge de travail étant à répartir équitablement entre les deux membres de l’équipe. Aucun rapport n’est à remettre, mais vous devez soumettre votre code source dans monPortail avant le **10 avril 2025, 17h**. Ensuite, lors de la séance de laboratoire du **11 avril 2025**, les deux équipiers doivent être en mesure individuellement d’expliquer leur approche et de démontrer le bon fonctionnement de l’ensemble de la solution de l’équipe du laboratoire. Si vous ne pouvez pas vous y présenter, contactez l’équipe pédagogique du cours dans les plus brefs délais afin de convenir d’une date d’évaluation alternative. Ce travail compte pour **12%** de la note totale du cours. Comme pour les travaux précédents, votre code doit compiler **sans avertissements** de la part de GCC.
 
 Notre évaluation se fera sur le Raspberry Pi de l'enseignant ou de l'assistant et comprendra notamment les éléments suivants:
 
@@ -194,7 +194,7 @@ Le barême d'évaluation détaillé sera le suivant (laboratoire noté sur 20 po
 
 ## 7. Ressources et lectures connexes
 
-* [Le dépôt Git contenant les fichiers de base](https://github.com/setr-ulaval/labo5-h24)
+* [Le dépôt Git contenant les fichiers de base](https://github.com/setr-ulaval/labo5-h25)
 * [La table des caractères USB-HID](https://www.win.tue.nl/~aeb/linux/kbd/scancodes-14.html)
 * [La table ASCII](https://www.asciitable.com/)
 * [Un article expliquant comment transformer le Raspberry Pi Zero en clavier, source d'inspiration pour ce laboratoire](https://randomnerdtutorials.com/raspberry-pi-zero-usb-keyboard-hid/)
